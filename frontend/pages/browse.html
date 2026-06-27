@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Matches — SkillSwap</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/browse.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a class="brand" href="index.html">SkillSwap</a>
+    <div class="nav-links">
+      <a href="profile.html">Profile</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" id="logout-btn">Logout</a>
+    </div>
+  </nav>
+
+  <main class="browse-page">
+    <aside class="filters">
+      <h3>Filter</h3>
+      <label>Skill
+        <input type="text" id="filter-skill" placeholder="e.g. Python" />
+      </label>
+      <label>Min Rating
+        <select id="filter-rating">
+          <option value="">Any</option>
+          <option value="4">4+</option>
+          <option value="3">3+</option>
+        </select>
+      </label>
+      <label>Format
+        <select id="filter-format">
+          <option value="">Any</option>
+          <option value="online">Online</option>
+          <option value="in-person">In-person</option>
+        </select>
+      </label>
+      <button id="apply-filters" class="btn-primary btn-full">Apply</button>
+    </aside>
+
+    <section class="matches-grid" id="matches-grid">
+      <p class="loading">Loading matches...</p>
+    </section>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/browse.js"></script>
+</body>
+</html>

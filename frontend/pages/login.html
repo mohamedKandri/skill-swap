@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — SkillSwap</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/auth.css" />
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <a class="brand" href="index.html">SkillSwap</a>
+    <h2>Welcome back</h2>
+
+    <form id="login-form">
+      <label>Email
+        <input type="email" id="email" placeholder="jane@uni.edu" required />
+      </label>
+      <label>Password
+        <input type="password" id="password" placeholder="••••••••" required />
+      </label>
+      <div id="error-msg" class="error hidden"></div>
+      <button type="submit" class="btn-primary btn-full">Log In</button>
+    </form>
+
+    <p class="auth-switch">Don't have an account? <a href="register.html">Sign up</a></p>
+  </div>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — SkillSwap</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/profile.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a class="brand" href="index.html">SkillSwap</a>
+    <div class="nav-links">
+      <a href="browse.html">Browse</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" id="logout-btn">Logout</a>
+    </div>
+  </nav>
+
+  <main class="profile-page">
+    <section class="profile-header">
+      <img id="avatar" src="../assets/images/default-avatar.png" alt="avatar" />
+      <div>
+        <h1 id="user-name">Loading...</h1>
+        <p id="user-university"></p>
+        <div id="user-rating"></div>
+      </div>
+      <button id="edit-btn" class="btn-secondary">Edit Profile</button>
+    </section>
+
+    <section class="profile-bio">
+      <h3>About</h3>
+      <p id="user-bio">—</p>
+    </section>
+
+    <section class="skills-section">
+      <div class="skills-col">
+        <h3>Skills I Offer</h3>
+        <ul id="skills-offer"></ul>
+        <button id="add-offer-btn" class="btn-outline btn-sm">+ Add skill</button>
+      </div>
+      <div class="skills-col">
+        <h3>Skills I Want</h3>
+        <ul id="skills-want"></ul>
+        <button id="add-want-btn" class="btn-outline btn-sm">+ Add skill</button>
+      </div>
+    </section>
+
+    <section class="reviews-section">
+      <h3>Reviews</h3>
+      <div id="reviews-list"></div>
+    </section>
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div id="edit-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <h3>Edit Profile</h3>
+      <label>Name
+        <input type="text" id="edit-name" />
+      </label>
+      <label>Bio
+        <textarea id="edit-bio" rows="3"></textarea>
+      </label>
+      <label>University
+        <input type="text" id="edit-university" />
+      </label>
+      <div class="modal-actions">
+        <button id="edit-cancel" class="btn-outline">Cancel</button>
+        <button id="edit-save"   class="btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/profile.js"></script>
+</body>
+</html>

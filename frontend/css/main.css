@@ -1,0 +1,82 @@
+/* ── Reset & tokens ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary:   #4f46e5;
+  --primary-h: #4338ca;
+  --bg:        #f8fafc;
+  --surface:   #ffffff;
+  --border:    #e2e8f0;
+  --text:      #1e293b;
+  --muted:     #64748b;
+  --danger:    #ef4444;
+  --radius:    10px;
+}
+
+body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); }
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Navbar ── */
+.navbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 56px;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.brand { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+
+/* ── Buttons ── */
+.btn-primary {
+  background: var(--primary); color: #fff;
+  padding: .5rem 1.25rem; border-radius: var(--radius);
+  border: none; cursor: pointer; font-size: .95rem; font-weight: 600;
+  transition: background .15s;
+}
+.btn-primary:hover { background: var(--primary-h); text-decoration: none; }
+
+.btn-secondary {
+  background: transparent; color: var(--primary);
+  padding: .5rem 1.25rem; border-radius: var(--radius);
+  border: 2px solid var(--primary); cursor: pointer; font-size: .95rem;
+}
+.btn-outline {
+  background: transparent; color: var(--text);
+  padding: .4rem 1rem; border-radius: var(--radius);
+  border: 1px solid var(--border); cursor: pointer; font-size: .875rem;
+}
+.btn-lg   { padding: .75rem 2rem; font-size: 1.1rem; }
+.btn-full { width: 100%; }
+.btn-sm   { padding: .3rem .75rem; font-size: .8rem; }
+
+/* ── Badge ── */
+.badge {
+  background: var(--danger); color: #fff;
+  border-radius: 999px; padding: .1rem .5rem;
+  font-size: .75rem; font-weight: 700;
+}
+.hidden { display: none !important; }
+
+/* ── Hero ── */
+.hero {
+  text-align: center; padding: 6rem 2rem 4rem;
+}
+.hero h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.2; margin-bottom: 1rem; }
+.hero p  { font-size: 1.15rem; color: var(--muted); margin-bottom: 2rem; }
+
+/* ── Feature cards ── */
+.features {
+  display: flex; gap: 1.5rem; flex-wrap: wrap;
+  justify-content: center; padding: 2rem;
+}
+.feature-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2rem; max-width: 280px;
+}
+.feature-card h3 { margin-bottom: .5rem; }
+
+/* ── Utility ── */
+.error { color: var(--danger); font-size: .875rem; margin-top: .5rem; }
+.loading { color: var(--muted); padding: 2rem; text-align: center; }

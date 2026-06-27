@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — SkillSwap</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a class="brand" href="index.html">SkillSwap</a>
+    <div class="nav-links">
+      <a href="profile.html">Profile</a>
+      <a href="browse.html">Browse</a>
+      <span id="notif-badge" class="badge hidden">0</span>
+      <a href="#" id="logout-btn">Logout</a>
+    </div>
+  </nav>
+
+  <main class="dashboard-page">
+    <h1>Dashboard</h1>
+
+    <section class="dash-section">
+      <h2>Pending Requests <span id="pending-count" class="badge">0</span></h2>
+      <div id="pending-list"></div>
+    </section>
+
+    <section class="dash-section">
+      <h2>Upcoming Sessions</h2>
+      <div id="upcoming-list"></div>
+    </section>
+
+    <section class="dash-section">
+      <h2>Past Sessions</h2>
+      <div id="past-list"></div>
+    </section>
+
+    <section class="dash-section">
+      <h2>Top Matches</h2>
+      <div id="matches-list"></div>
+    </section>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Env
+.env
+
+# DB — keep seeded dev database but ignore local overrides
+*.sqlite3
+
+# Flask migrations (keep structure, ignore auto-gen)
+backend/migrations/versions/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
