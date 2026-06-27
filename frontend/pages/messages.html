@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages — SkillSwap</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/messages.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a class="brand" href="dashboard.html">SkillSwap</a>
+    <div class="nav-links">
+      <a href="profile.html">Profile</a>
+      <a href="browse.html">Browse</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" id="logout-btn">Logout</a>
+    </div>
+  </nav>
+
+  <main class="messages-page">
+    <div class="convo-list">
+      <h3>Messages</h3>
+      <div class="convo-items" id="convo-items">
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <div class="thread-panel" id="thread-panel">
+      <div class="no-convo" id="no-convo">Select a conversation or start one from Browse.</div>
+      <div id="thread-header" class="thread-header hidden"></div>
+      <div id="thread-messages" class="thread-messages hidden"></div>
+      <div id="thread-input" class="thread-input hidden">
+        <input type="text" id="msg-input" placeholder="Type a message…" autocomplete="off" />
+        <button id="msg-send" class="btn-primary btn-sm">Send</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/messages.js"></script>
+</body>
+</html>

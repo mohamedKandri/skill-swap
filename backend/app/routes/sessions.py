@@ -11,11 +11,13 @@ sessions_bp = Blueprint("sessions", __name__)
 def create_session():
     user_id = int(get_jwt_identity())
     data = request.get_json()
+    from datetime import datetime
     session = Session(
         requester_id=user_id,
         receiver_id=data["receiver_id"],
         skill_id=data["skill_id"],
         format=data.get("format", "online"),
+        date=datetime.fromisoformat(data["date"]) if data.get("date") else None,
     )
     db.session.add(session)
     db.session.commit()

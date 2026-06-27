@@ -47,4 +47,9 @@ const api = {
     create:  (data) => apiFetch("/reviews/",             { method: "POST", body: JSON.stringify(data) }),
     forUser: (id)   => apiFetch(`/reviews/user/${id}`),
   },
+  messages: {
+    conversations: ()     => apiFetch("/messages/"),
+    thread:        (id)   => apiFetch(`/messages/${id}`),
+    send:          (data) => apiFetch("/messages/", { method: "POST", body: JSON.stringify(data) }),
+  },
 };

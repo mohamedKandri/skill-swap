@@ -80,3 +80,44 @@ a:hover { text-decoration: underline; }
 /* ── Utility ── */
 .error { color: var(--danger); font-size: .875rem; margin-top: .5rem; }
 .loading { color: var(--muted); padding: 2rem; text-align: center; }
+
+/* ── Modal (shared) ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.4);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.modal-card {
+  background: var(--surface); border-radius: var(--radius);
+  padding: 2rem; width: 100%; max-width: 420px;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.modal-card h3 { font-size: 1.2rem; }
+.modal-card label { display: flex; flex-direction: column; gap: .3rem; font-size: .9rem; font-weight: 500; }
+.modal-card input,
+.modal-card textarea,
+.modal-card select {
+  padding: .6rem .9rem; border: 1px solid var(--border);
+  border-radius: var(--radius); font-size: .95rem; font-family: inherit; resize: vertical;
+}
+.modal-card input:focus,
+.modal-card textarea:focus,
+.modal-card select:focus { outline: none; border-color: var(--primary); }
+.modal-actions { display: flex; gap: .75rem; justify-content: flex-end; margin-top: .5rem; }
+
+/* ── Spinner ── */
+.spinner {
+  width: 34px; height: 34px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 3rem auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Star rating ── */
+.star-rating { display: flex; gap: .2rem; font-size: 1.6rem; color: #d1d5db; cursor: pointer; }
+.star-rating span:hover,
+.star-rating span.active { color: #f59e0b; }

@@ -13,6 +13,7 @@
     <div class="nav-links">
       <a href="profile.html">Profile</a>
       <a href="dashboard.html">Dashboard</a>
+      <a href="messages.html">Messages</a>
       <a href="#" id="logout-btn">Logout</a>
     </div>
   </nav>
@@ -44,6 +45,30 @@
       <p class="loading">Loading matches...</p>
     </section>
   </main>
+
+  <!-- Request Swap Modal -->
+  <div id="swap-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <h3>Request Skill Swap</h3>
+      <label>Skill to Learn
+        <select id="swap-skill-select"></select>
+      </label>
+      <label>Proposed Date &amp; Time <span style="font-weight:400;color:var(--muted)">(optional)</span>
+        <input type="datetime-local" id="swap-date" />
+      </label>
+      <label>Format
+        <select id="swap-format">
+          <option value="online">Online</option>
+          <option value="in-person">In-person</option>
+        </select>
+      </label>
+      <p id="swap-error" class="error hidden"></p>
+      <div class="modal-actions">
+        <button id="swap-cancel" class="btn-outline">Cancel</button>
+        <button id="swap-confirm" class="btn-primary">Send Request</button>
+      </div>
+    </div>
+  </div>
 
   <script src="../js/api.js"></script>
   <script src="../js/browse.js"></script>

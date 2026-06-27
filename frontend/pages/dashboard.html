@@ -13,6 +13,7 @@
     <div class="nav-links">
       <a href="profile.html">Profile</a>
       <a href="browse.html">Browse</a>
+      <a href="messages.html">Messages</a>
       <span id="notif-badge" class="badge hidden">0</span>
       <a href="#" id="logout-btn">Logout</a>
     </div>
@@ -41,6 +42,30 @@
       <div id="matches-list"></div>
     </section>
   </main>
+
+  <!-- Leave Review Modal -->
+  <div id="review-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <h3>Leave a Review</h3>
+      <label>Rating
+        <div class="star-rating" id="star-rating">
+          <span data-val="1">★</span>
+          <span data-val="2">★</span>
+          <span data-val="3">★</span>
+          <span data-val="4">★</span>
+          <span data-val="5">★</span>
+        </div>
+      </label>
+      <label>Comment <span style="font-weight:400;color:var(--muted)">(optional)</span>
+        <textarea id="review-comment" rows="3" placeholder="Share your experience…"></textarea>
+      </label>
+      <p id="review-error" class="error hidden"></p>
+      <div class="modal-actions">
+        <button id="review-cancel" class="btn-outline">Cancel</button>
+        <button id="review-submit" class="btn-primary">Submit Review</button>
+      </div>
+    </div>
+  </div>
 
   <script src="../js/api.js"></script>
   <script src="../js/dashboard.js"></script>

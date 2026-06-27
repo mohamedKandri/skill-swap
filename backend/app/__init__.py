@@ -25,12 +25,14 @@ def create_app(config_class=Config):
     from .routes.matches import matches_bp
     from .routes.sessions import sessions_bp
     from .routes.reviews import reviews_bp
+    from .routes.messages import messages_bp
 
-    app.register_blueprint(auth_bp,     url_prefix="/api/auth")
-    app.register_blueprint(profile_bp,  url_prefix="/api/profile")
-    app.register_blueprint(skills_bp,   url_prefix="/api/skills")
-    app.register_blueprint(matches_bp,  url_prefix="/api/matches")
-    app.register_blueprint(sessions_bp, url_prefix="/api/sessions")
-    app.register_blueprint(reviews_bp,  url_prefix="/api/reviews")
+    app.register_blueprint(auth_bp,      url_prefix="/api/auth")
+    app.register_blueprint(profile_bp,   url_prefix="/api/profile")
+    app.register_blueprint(skills_bp,    url_prefix="/api/skills")
+    app.register_blueprint(matches_bp,   url_prefix="/api/matches")
+    app.register_blueprint(sessions_bp,  url_prefix="/api/sessions")
+    app.register_blueprint(reviews_bp,   url_prefix="/api/reviews")
+    app.register_blueprint(messages_bp,  url_prefix="/api/messages")
 
     return app

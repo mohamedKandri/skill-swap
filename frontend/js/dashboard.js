@@ -1,17 +1,47 @@
+// review state — global so openReview() (called via inline onclick) can reach it
+let reviewSessionId = null;
+let revieweeId      = null;
+let reviewRating    = 0;
+
+function openReview(sessionId, otherId) {
+  reviewSessionId = sessionId;
+  revieweeId      = otherId;
+  reviewRating    = 0;
+  document.getElementById("review-comment").value = "";
+  document.getElementById("review-error").classList.add("hidden");
+  document.querySelectorAll(".star-rating span").forEach(s => s.classList.remove("active"));
+  document.getElementById("review-modal").classList.remove("hidden");
+}
+
+async function updateStatus(sessionId, status) {
+  try {
+    await api.sessions.update(sessionId, { status });
+    window.location.reload();
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   if (!getToken()) { window.location.href = "login.html"; return; }
 
   const me = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const spinner = '<div class="spinner"></div>';
+  document.getElementById("pending-list").innerHTML  = spinner;
+  document.getElementById("upcoming-list").innerHTML = spinner;
+  document.getElementById("past-list").innerHTML     = spinner;
+  document.getElementById("matches-list").innerHTML  = spinner;
 
   const [sessions, matches] = await Promise.all([
     api.sessions.list().catch(() => []),
     api.matches.list().catch(() => []),
   ]);
 
-  const now = new Date();
-  const pending   = sessions.filter(s => s.status === "pending");
-  const upcoming  = sessions.filter(s => s.status === "accepted" && s.date && new Date(s.date) > now);
-  const past      = sessions.filter(s => s.status === "completed" || (s.date && new Date(s.date) < now));
+  const now      = new Date();
+  const pending  = sessions.filter(s => s.status === "pending");
+  const upcoming = sessions.filter(s => s.status === "accepted" && s.date && new Date(s.date) > now);
+  const past     = sessions.filter(s => s.status === "completed" || (s.date && new Date(s.date) < now));
 
   document.getElementById("pending-count").textContent = pending.length;
   if (!pending.length) document.getElementById("pending-count").classList.add("hidden");
@@ -24,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       : s.status === "accepted"
         ? `<button class="btn-outline btn-sm" onclick="updateStatus(${s.id},'cancelled')">Cancel</button>`
         : s.status === "completed"
-          ? `<a href="profile.html?id=${other.id}" class="btn-outline btn-sm">Leave Review</a>`
+          ? `<button class="btn-outline btn-sm" onclick="openReview(${s.id},${other.id})">Leave Review</button>`
           : "";
     return `
       <div class="session-card">
@@ -54,13 +84,44 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("logout-btn").addEventListener("click", (e) => {
     e.preventDefault(); localStorage.clear(); window.location.href = "login.html";
   });
-});
 
-async function updateStatus(sessionId, status) {
-  try {
-    await api.sessions.update(sessionId, { status });
-    window.location.reload();
-  } catch (err) {
-    alert(err.message);
+  // --- review modal wiring ---
+  const reviewModal = document.getElementById("review-modal");
+  const reviewError = document.getElementById("review-error");
+  const stars       = reviewModal.querySelectorAll(".star-rating span");
+
+  function setStars(val) {
+    reviewRating = val;
+    stars.forEach(s => s.classList.toggle("active", parseInt(s.dataset.val) <= val));
   }
-}
+
+  stars.forEach(s => {
+    s.addEventListener("click",      () => setStars(parseInt(s.dataset.val)));
+    s.addEventListener("mouseover",  () => stars.forEach(x => x.classList.toggle("active", parseInt(x.dataset.val) <= parseInt(s.dataset.val))));
+    s.addEventListener("mouseleave", () => setStars(reviewRating));
+  });
+
+  document.getElementById("review-cancel")?.addEventListener("click", () => reviewModal.classList.add("hidden"));
+  reviewModal?.addEventListener("click", (e) => { if (e.target === reviewModal) reviewModal.classList.add("hidden"); });
+
+  document.getElementById("review-submit")?.addEventListener("click", async () => {
+    if (!reviewRating) {
+      reviewError.textContent = "Please select a star rating.";
+      reviewError.classList.remove("hidden");
+      return;
+    }
+    try {
+      await api.reviews.create({
+        session_id:  reviewSessionId,
+        reviewee_id: revieweeId,
+        rating:      reviewRating,
+        comment:     document.getElementById("review-comment").value.trim(),
+      });
+      reviewModal.classList.add("hidden");
+      window.location.reload();
+    } catch (err) {
+      reviewError.textContent = err.message;
+      reviewError.classList.remove("hidden");
+    }
+  });
+});

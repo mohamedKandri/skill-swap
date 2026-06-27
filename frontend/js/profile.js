@@ -8,7 +8,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentUser = null;
 
   async function loadProfile() {
+    document.getElementById("user-name").textContent = "";
+    document.querySelector(".profile-page").insertAdjacentHTML("afterbegin", '<div id="profile-spinner" class="spinner"></div>');
     currentUser = userId ? await api.profile.get(userId) : await api.profile.me();
+    document.getElementById("profile-spinner")?.remove();
 
     document.getElementById("user-name").textContent       = currentUser.name;
     document.getElementById("user-university").textContent = currentUser.university || "";
@@ -42,6 +45,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("edit-btn")?.remove();
     document.getElementById("add-offer-btn")?.remove();
     document.getElementById("add-want-btn")?.remove();
+    const msgBtn = document.getElementById("msg-btn");
+    if (msgBtn) {
+      msgBtn.href = `messages.html?with=${userId}`;
+      msgBtn.classList.remove("hidden");
+    }
   }
 
   // --- remove skill ---
@@ -51,19 +59,48 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadProfile();
   });
 
-  // --- add skill ---
-  async function promptAddSkill(type) {
-    const name = prompt(`Skill name to ${type === "offer" ? "offer" : "learn"}:`);
-    if (!name || !name.trim()) return;
+  // --- add skill modal ---
+  const addSkillModal = document.getElementById("add-skill-modal");
+  const addSkillInput = document.getElementById("add-skill-input");
+  const addSkillError = document.getElementById("add-skill-error");
+  let addSkillType = "offer";
+
+  function openAddSkillModal(type) {
+    addSkillType = type;
+    document.getElementById("add-skill-title").textContent =
+      type === "offer" ? "Add a Skill You Offer" : "Add a Skill You Want to Learn";
+    addSkillInput.value = "";
+    addSkillError.classList.add("hidden");
+    addSkillModal.classList.remove("hidden");
+    setTimeout(() => addSkillInput.focus(), 50);
+  }
+
+  document.getElementById("add-skill-cancel")?.addEventListener("click", () => addSkillModal.classList.add("hidden"));
+  addSkillModal?.addEventListener("click", (e) => { if (e.target === addSkillModal) addSkillModal.classList.add("hidden"); });
+
+  document.getElementById("add-skill-save")?.addEventListener("click", async () => {
+    const name = addSkillInput.value.trim();
+    if (!name) {
+      addSkillError.textContent = "Please enter a skill name.";
+      addSkillError.classList.remove("hidden");
+      return;
+    }
     try {
-      await api.skills.add({ name: name.trim(), type });
+      await api.skills.add({ name, type: addSkillType });
+      addSkillModal.classList.add("hidden");
       await loadProfile();
     } catch (err) {
-      alert(err.message);
+      addSkillError.textContent = err.message;
+      addSkillError.classList.remove("hidden");
     }
-  }
-  document.getElementById("add-offer-btn")?.addEventListener("click", () => promptAddSkill("offer"));
-  document.getElementById("add-want-btn")?.addEventListener("click",  () => promptAddSkill("want"));
+  });
+
+  addSkillInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("add-skill-save")?.click();
+  });
+
+  document.getElementById("add-offer-btn")?.addEventListener("click", () => openAddSkillModal("offer"));
+  document.getElementById("add-want-btn")?.addEventListener("click",  () => openAddSkillModal("want"));
 
   // --- edit profile modal ---
   const modal      = document.getElementById("edit-modal");

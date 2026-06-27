@@ -24,8 +24,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           ${m.i_teach_them.map(s  => `<span class="pill want">Wants ${s.name}</span>`).join("")}
         </div>
         ${m.user.avg_rating ? `<span style="font-size:.85rem;color:#f59e0b">★ ${m.user.avg_rating}</span>` : ""}
-        <div style="display:flex;gap:.5rem;margin-top:.5rem">
+        <div style="display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap">
           <a href="profile.html?id=${m.user.id}" class="btn-outline btn-sm">View Profile</a>
+          <a href="messages.html?with=${m.user.id}" class="btn-outline btn-sm">Message</a>
           <button class="btn-primary btn-sm"
             data-receiver="${m.user.id}"
             data-skills='${JSON.stringify([...m.they_teach_me, ...m.i_teach_them])}'>
@@ -35,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       </div>`).join("");
   }
 
+  grid.innerHTML = '<div class="spinner"></div>';
   allMatches = await api.matches.list().catch(() => []);
   renderMatches(allMatches);
 
@@ -61,36 +63,49 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!e.target.value) renderMatches(allMatches);
   });
 
-  // --- request swap (delegated, works after re-render) ---
-  grid.addEventListener("click", async (e) => {
+  // --- request swap modal ---
+  let swapReceiverId = null;
+  let swapSkills = [];
+  const swapModal   = document.getElementById("swap-modal");
+  const swapSelect  = document.getElementById("swap-skill-select");
+  const swapError   = document.getElementById("swap-error");
+
+  grid.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-receiver]");
     if (!btn) return;
 
-    const receiverId = parseInt(btn.dataset.receiver);
-    const skills     = JSON.parse(btn.dataset.skills);
+    swapReceiverId = parseInt(btn.dataset.receiver);
+    swapSkills     = JSON.parse(btn.dataset.skills);
 
-    if (!skills.length) {
-      alert("No overlapping skills to swap.");
-      return;
-    }
+    if (!swapSkills.length) return;
 
-    let skillId;
-    if (skills.length === 1) {
-      skillId = skills[0].id;
-    } else {
-      const options = skills.map((s, i) => `${i + 1}. ${s.name}`).join("\n");
-      const choice  = prompt(`Which skill do you want to learn?\n\n${options}\n\nEnter number:`);
-      if (!choice) return;
-      const idx = parseInt(choice) - 1;
-      if (isNaN(idx) || !skills[idx]) { alert("Invalid choice."); return; }
-      skillId = skills[idx].id;
-    }
+    swapSelect.innerHTML = swapSkills.map(s => `<option value="${s.id}">${s.name}</option>`).join("");
+    document.getElementById("swap-date").value = "";
+    swapError.classList.add("hidden");
+    swapModal.classList.remove("hidden");
+  });
+
+  document.getElementById("swap-cancel")?.addEventListener("click", () => swapModal.classList.add("hidden"));
+  swapModal?.addEventListener("click", (e) => { if (e.target === swapModal) swapModal.classList.add("hidden"); });
+
+  document.getElementById("swap-confirm")?.addEventListener("click", async () => {
+    const skillId = parseInt(swapSelect.value);
+    const date    = document.getElementById("swap-date").value;
+    const format  = document.getElementById("swap-format").value;
 
     try {
-      await api.sessions.create({ receiver_id: receiverId, skill_id: skillId });
-      alert("Swap request sent!");
+      await api.sessions.create({
+        receiver_id: swapReceiverId,
+        skill_id:    skillId,
+        format,
+        ...(date ? { date } : {}),
+      });
+      swapModal.classList.add("hidden");
+      const btn = document.querySelector(`[data-receiver="${swapReceiverId}"]`);
+      if (btn) { btn.textContent = "Requested ✓"; btn.disabled = true; }
     } catch (err) {
-      alert(err.message);
+      swapError.textContent = err.message;
+      swapError.classList.remove("hidden");
     }
   });
 

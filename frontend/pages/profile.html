@@ -13,6 +13,7 @@
     <div class="nav-links">
       <a href="browse.html">Browse</a>
       <a href="dashboard.html">Dashboard</a>
+      <a href="messages.html">Messages</a>
       <a href="#" id="logout-btn">Logout</a>
     </div>
   </nav>
@@ -26,6 +27,7 @@
         <div id="user-rating"></div>
       </div>
       <button id="edit-btn" class="btn-secondary">Edit Profile</button>
+      <a id="msg-btn" class="btn-outline hidden" href="#">Message</a>
     </section>
 
     <section class="profile-bio">
@@ -51,6 +53,21 @@
       <div id="reviews-list"></div>
     </section>
   </main>
+
+  <!-- Add Skill Modal -->
+  <div id="add-skill-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <h3 id="add-skill-title">Add Skill</h3>
+      <label>Skill Name
+        <input type="text" id="add-skill-input" placeholder="e.g. Python, Guitar, Spanish…" autocomplete="off" />
+      </label>
+      <p id="add-skill-error" class="error hidden"></p>
+      <div class="modal-actions">
+        <button id="add-skill-cancel" class="btn-outline">Cancel</button>
+        <button id="add-skill-save" class="btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Edit Profile Modal -->
   <div id="edit-modal" class="modal-overlay hidden">
